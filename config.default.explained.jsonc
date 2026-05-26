@@ -1,0 +1,304 @@
+{
+ // =============================
+ // Fitness Video Coach Demo
+ // 阅读版配置（JSONC）
+ // -----------------------------
+ // 这个文件主要给人看，不保证程序直接读取。
+ // 程序真正读取的是同目录下的 config.default.json。
+ // 如果你想修改参数，建议：
+ // 1) 先阅读本文件；
+ // 2) 再把需要的值同步改到 config.default.json。
+ // =============================
+
+ "global": {
+  // 关键点最小置信度。越高越严格，越低越容易保留抖动点。
+  "min_kpt_conf": 0.25,
+
+  // 关键点平滑系数（EMA）。
+  // 越大：更跟随当前帧；越小：更平滑但也更迟钝。
+  "smooth_alpha": 0.35,
+
+  // 是否按视频真实 FPS 同步显示。
+  // true 表示按原视频速度播放，false 表示尽快处理完整段视频。
+  "realtime_sync": true,
+
+  // 是否打印更详细的终端日志。
+  "terminal_verbose": false,
+
+  // 是否开启“机位视角实验判断”。
+  // 这个不是核心识别逻辑，只是给报告补充一个视角提示。
+  "view_experiment_enabled": true,
+
+  // 视角判断里，“机位是否基本合适”的置信度阈值。
+  "view_conf_threshold": 0.5,
+
+  // 视频开头多少秒内做初始化检查（入镜、距离、视角等）。
+  "init_check_seconds": 3.0
+ },
+
+ "coach": {
+  // 实时提示模式。
+  // event: 一出现问题就立刻提示
+  // group: 每 N 次动作后总结一次
+  // time: 每隔 X 秒总结一次
+  // 默认使用 group 模式，便于按动作组进行反馈。
+  "mode": "group",
+
+  // group 模式下，每多少次动作输出一次总结。
+  // 需求里指定默认值为 1，所以这里每完成 1 次就可以给反馈。
+  "group_n": 1,
+
+  // time 模式下的时间间隔（秒）。
+  "interval_s": 4.0,
+
+  // 单条实时提示在画面上停留多久（秒）。
+  // 需求里指定默认值为 2。
+  "tip_hold_s": 2.0
+ },
+
+ "squat": {
+  // 深蹲开始进入“下蹲阶段”时，膝角的大致上限。
+  "knee_start_max_deg": 160.0,
+
+  // 认为已经接近底部的膝角提示阈值。
+  "knee_bottom_hint_deg": 135.0,
+
+  // 回到顶部、准备开始下一次动作时的膝角阈值。
+  "knee_top_ready_deg": 145.0,
+
+  // 髋部下降比例达到多少，开始认为用户进入下蹲。
+  "hip_drop_start_ratio": 0.08,
+
+  // 髋部下降比例达到多少，认为已经到底部附近。
+  "hip_drop_bottom_ratio": 0.16,
+
+  // 髋部重新升回多少，认为这次动作接近完成。
+  "hip_drop_return_ratio": 0.10,
+
+  // 躯干前倾超过多少度，认为需要提醒“身体不要太前倾”。
+  "torso_lean_warn_deg": 28.0,
+
+  // “优”对应的底部膝角范围。
+  "grade_perfect_low_deg": 82.0,
+  "grade_perfect_high_deg": 102.0,
+
+  // “良”对应的底部膝角范围。
+  "grade_good_low_deg": 72.0,
+  "grade_good_high_deg": 112.0,
+
+  // 在多大膝角范围内，开始收集“底部窗口”的统计值。
+  "bottom_window_deg": 140.0,
+
+  // 同类提示的冷却时间，避免每帧都重复说。
+  "cooldown_s": 0.9
+ },
+
+ "jumping_jack": {
+  // 开合跳进入“打开阶段”的手部判定阈值。
+  "detect_open_entry_hand_ratio": 0.35,
+  // 开合跳进入“打开阶段”的脚部判定阈值。
+  "detect_open_entry_feet_ratio_sw": 0.70,
+
+  // 真正判定为“打开”的手部阈值。
+  "detect_open_hand_ratio": 0.55,
+  // 真正判定为“打开”的脚部阈值。
+  "detect_open_feet_ratio_sw": 0.95,
+
+  // 判定为“闭合”的手部阈值。
+  "detect_close_hand_ratio": 0.30,
+  // 判定为“闭合”的脚部阈值。
+  "detect_close_feet_ratio_sw": 0.80,
+
+  // 质量评分：优 的打开手部下界。
+  "grade_open_hand_perfect_low": 0.85,
+  // 质量评分：优 的打开手部上界（本项目中更多是软约束）。
+  "grade_open_hand_perfect_high": 1.15,
+  // 质量评分：优 的脚打开最小阈值。
+  "grade_open_feet_perfect_min": 1.40,
+  // 质量评分：优 的手闭合最大阈值。
+  "grade_close_hand_perfect_max": 0.15,
+  // 质量评分：优 的脚闭合最大阈值。
+  "grade_close_feet_perfect_max": 0.40,
+
+  // 质量评分：良 的打开手部范围。
+  "grade_open_hand_good_low": 0.70,
+  "grade_open_hand_good_high": 1.20,
+  // 质量评分：良 的脚打开最小阈值。
+  "grade_open_feet_good_min": 1.05,
+  // 质量评分：良 的手闭合最大阈值。
+  "grade_close_hand_good_max": 0.25,
+  // 质量评分：良 的脚闭合最大阈值。
+  "grade_close_feet_good_max": 0.75,
+
+  // 同类提示冷却时间。
+  "cooldown_s": 0.6
+ },
+
+ "curl": {
+  // 杠铃弯举开始进入发力阶段时的肘角阈值。
+  "lift_entry_elbow_deg": 138.0,
+  // 顶部提示阈值。越小表示卷得越高。
+  "top_hint_elbow_deg": 112.0,
+  // 放回到底部准备下一次动作时的肘角阈值。
+  "return_ready_elbow_deg": 138.0,
+
+  // “优”允许的最大顶部肘角（越小越好）。
+  "grade_perfect_max_elbow_deg": 35.0,
+  // “良”允许的最大顶部肘角。
+  "grade_good_max_elbow_deg": 55.0,
+
+  // 肘部漂移超过这个比例，就提示肘不要往前跑。
+  "elbow_drift_warn_ratio": 0.12,
+  // 身体摆动超过这个角度，就提示不要借力。
+  "trunk_swing_warn_deg": 14.0,
+
+  // 顶部手腕抬起比例阈值。
+  "top_wrist_lift_ratio": 0.12,
+  // 回到底部的手腕抬起比例阈值。
+  "return_wrist_lift_ratio": 0.05,
+
+  // 同类提示冷却时间。
+  "cooldown_s": 0.8
+ },
+
+ "pushup": {
+  // 俯卧撑下去到足够深时的肘角阈值。
+  "elbow_down_deg": 95.0,
+  // 俯卧撑回到顶部时的肘角阈值。
+  "elbow_up_deg": 160.0,
+  // 如果这一整次动作里最低肘角还大于这个值，就判定“下得不够深”。
+  "depth_warn_elbow_deg": 105.0,
+  // 身体折线弯曲超过这个角度，就提示“身体不够直”。
+  "body_bend_warn_deg": 18.0,
+  // 同类提示冷却时间。
+  "cooldown_s": 0.8
+ },
+
+
+ "bench_press": {
+  // 顶部准备位时，肘关节接近伸直的阈值。
+  "start_ready_elbow_deg": 150.0,
+  // 开始下放时的肘角阈值。
+  "lower_entry_elbow_deg": 138.0,
+  // 已进入胸前底部工作区的肘角提示阈值。
+  "bottom_hint_elbow_deg": 100.0,
+  // 回到顶部并完成锁定时的肘角阈值。
+  "press_finish_elbow_deg": 156.0,
+
+  // “优”对应的底部肘角范围。
+  "grade_perfect_bottom_low_deg": 78.0,
+  "grade_perfect_bottom_high_deg": 98.0,
+  // “良”对应的底部肘角范围。
+  "grade_good_bottom_low_deg": 68.0,
+  "grade_good_bottom_high_deg": 110.0,
+
+  // “优/良”对应的顶部锁定下限。
+  "grade_perfect_lockout_min_deg": 166.0,
+  "grade_good_lockout_min_deg": 156.0,
+
+  // 底部腕肘水平偏移比例阈值。越大越说明前臂不够竖直。
+  "bottom_forearm_vertical_warn_ratio": 0.12,
+  // 髋部桥起阈值。
+  "hip_bridge_warn_ratio": 0.09,
+  // 单次 rep 过快阈值。
+  "tempo_fast_warn_s": 0.75,
+
+  // 腕相对肩的下放比例阈值：用于辅助确认是否下到胸前工作区。
+  "wrist_drop_bottom_ratio": 0.20,
+  // 回到顶部时，腕相对肩应回到接近顶部基准。
+  "wrist_drop_return_ratio": 0.10,
+
+  // 同类提示冷却时间。
+  "cooldown_s": 0.8
+ },
+
+ "crunch": {
+  // 平躺准备位的躯干角阈值。
+  "start_ready_torso_deg": 22.0,
+  // 开始卷起时的躯干角阈值。
+  "curl_entry_torso_deg": 28.0,
+  // 达到有效卷起顶部工作区的躯干角阈值。
+  "top_torso_deg": 40.0,
+  // 回到底部准备下一次动作时的躯干角阈值。
+  "return_ready_torso_deg": 24.0,
+
+  // “优/良”对应的顶部卷起角度范围。
+  "grade_perfect_top_low_deg": 38.0,
+  "grade_perfect_top_high_deg": 65.0,
+  "grade_good_top_low_deg": 30.0,
+  "grade_good_top_high_deg": 75.0,
+
+  // 髋部和膝部漂移阈值，用于识别借腿、抬髋等代偿。
+  "hip_drift_warn_ratio": 0.10,
+  "knee_drift_warn_ratio": 0.12,
+
+  // 卷起角速度过快阈值，用于识别惯性甩起。
+  "momentum_warn_deg_s": 125.0,
+  // 单次 rep 过快阈值。
+  "tempo_fast_warn_s": 0.65,
+
+  // 同类提示冷却时间。
+  "cooldown_s": 0.8
+ },
+
+ "vlm": {
+  // 是否启用课后 VLM 复盘。
+  // 默认关闭，需要课后总结时再打开。
+  "posthoc": false,
+
+  // 是否打印 VLM 调试日志。
+  "debug": false,
+
+  // 单次 VLM 请求超时时间。
+  "timeout_s": 30.0,
+
+  // OpenAI-compatible 接口地址。
+  "base_url": "",
+
+  // OpenAI-compatible 接口密钥。
+  "api_key": "",
+
+  // 使用的 VLM 模型名。
+  "model_name": "",
+
+  "inputs": {
+   "posthoc": {
+    // 是否把一个紧凑版任务上下文（总次数、平均分、有哪些组）发给 VLM。
+    // 默认 false，用于控制是否额外加入任务上下文文本。
+    "task_context": false,
+
+    // 是否把规则结论文本发给 VLM。
+    "rule_conclusion": false,
+
+    // 是否把完整 review JSON 发给 VLM。
+    "review_json": false,
+
+    // 是否把 YOLO 结构化输出发给 VLM。
+    // 这是课后 VLM 的主要结构化输入。
+    "yolo_output": true,
+
+    // 是否把原始图像帧发给 VLM。
+    "raw_frames": false,
+
+    // 如果要送帧，送多少帧。
+    "raw_frame_count": 4,
+
+    // 抽帧策略：phase_points 表示尽量均匀覆盖动作过程。
+    "raw_frame_strategy": "phase_points",
+
+    // 图片传输方式：individual / stitched / both。
+    // 默认 individual；当 raw_frames=false 时通常不会真正生效。
+    "image_delivery": "individual",
+
+    // 图片最长边压缩上限。
+    "image_max_side": 1024,
+
+    // JPEG 压缩质量。
+    "image_jpeg_quality": 85,
+
+    // 拼接图的目标高度。
+    "montage_height": 320
+   }
+  }
+ }
+}

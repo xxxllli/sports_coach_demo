@@ -1,0 +1,126 @@
+{
+  "global": {
+    "min_kpt_conf": 0.25,
+    "smooth_alpha": 0.35,
+    "realtime_sync": true,
+    "terminal_verbose": false,
+    "view_experiment_enabled": true,
+    "view_conf_threshold": 0.5,
+    "init_check_seconds": 3.0
+  },
+  "coach": {
+    "mode": "group",
+    "group_n": 1,
+    "interval_s": 4.0,
+    "tip_hold_s": 2.0
+  },
+  "squat": {
+    "knee_start_max_deg": 160.0,
+    "knee_bottom_hint_deg": 135.0,
+    "knee_top_ready_deg": 145.0,
+    "hip_drop_start_ratio": 0.08,
+    "hip_drop_bottom_ratio": 0.16,
+    "hip_drop_return_ratio": 0.1,
+    "torso_lean_warn_deg": 28.0,
+    "grade_perfect_low_deg": 82.0,
+    "grade_perfect_high_deg": 102.0,
+    "grade_good_low_deg": 72.0,
+    "grade_good_high_deg": 112.0,
+    "bottom_window_deg": 140.0,
+    "cooldown_s": 0.9
+  },
+  "jumping_jack": {
+    "detect_open_entry_hand_ratio": 0.35,
+    "detect_open_entry_feet_ratio_sw": 0.7,
+    "detect_open_hand_ratio": 0.55,
+    "detect_open_feet_ratio_sw": 0.95,
+    "detect_close_hand_ratio": 0.3,
+    "detect_close_feet_ratio_sw": 0.8,
+    "grade_open_hand_perfect_low": 0.85,
+    "grade_open_hand_perfect_high": 1.15,
+    "grade_open_feet_perfect_min": 1.4,
+    "grade_close_hand_perfect_max": 0.15,
+    "grade_close_feet_perfect_max": 0.4,
+    "grade_open_hand_good_low": 0.7,
+    "grade_open_hand_good_high": 1.2,
+    "grade_open_feet_good_min": 1.05,
+    "grade_close_hand_good_max": 0.25,
+    "grade_close_feet_good_max": 0.75,
+    "cooldown_s": 0.6
+  },
+  "curl": {
+    "lift_entry_elbow_deg": 138.0,
+    "top_hint_elbow_deg": 112.0,
+    "return_ready_elbow_deg": 138.0,
+    "grade_perfect_max_elbow_deg": 35.0,
+    "grade_good_max_elbow_deg": 55.0,
+    "elbow_drift_warn_ratio": 0.12,
+    "trunk_swing_warn_deg": 14.0,
+    "top_wrist_lift_ratio": 0.12,
+    "return_wrist_lift_ratio": 0.05,
+    "cooldown_s": 0.8
+  },
+  "pushup": {
+    "elbow_down_deg": 95.0,
+    "elbow_up_deg": 160.0,
+    "depth_warn_elbow_deg": 105.0,
+    "body_bend_warn_deg": 18.0,
+    "cooldown_s": 0.8
+  },
+  "vlm": {
+    "posthoc": false,
+    "debug": false,
+    "timeout_s": 30.0,
+    "base_url": "",
+    "api_key": "",
+    "model_name": "",
+    "inputs": {
+      "posthoc": {
+        "task_context": false,
+        "rule_conclusion": false,
+        "review_json": false,
+        "yolo_output": true,
+        "raw_frames": false,
+        "raw_frame_count": 4,
+        "raw_frame_strategy": "phase_points",
+        "image_delivery": "individual",
+        "image_max_side": 1024,
+        "image_jpeg_quality": 85,
+        "montage_height": 320
+      }
+    }
+  },
+  "bench_press": {
+    "start_ready_elbow_deg": 150.0,
+    "lower_entry_elbow_deg": 138.0,
+    "bottom_hint_elbow_deg": 100.0,
+    "press_finish_elbow_deg": 156.0,
+    "grade_perfect_bottom_low_deg": 78.0,
+    "grade_perfect_bottom_high_deg": 98.0,
+    "grade_good_bottom_low_deg": 68.0,
+    "grade_good_bottom_high_deg": 110.0,
+    "grade_perfect_lockout_min_deg": 166.0,
+    "grade_good_lockout_min_deg": 156.0,
+    "bottom_forearm_vertical_warn_ratio": 0.12,
+    "hip_bridge_warn_ratio": 0.09,
+    "tempo_fast_warn_s": 0.75,
+    "wrist_drop_bottom_ratio": 0.2,
+    "wrist_drop_return_ratio": 0.1,
+    "cooldown_s": 0.8
+  },
+  "crunch": {
+    "start_ready_torso_deg": 22.0,
+    "curl_entry_torso_deg": 28.0,
+    "top_torso_deg": 40.0,
+    "return_ready_torso_deg": 24.0,
+    "grade_perfect_top_low_deg": 38.0,
+    "grade_perfect_top_high_deg": 65.0,
+    "grade_good_top_low_deg": 30.0,
+    "grade_good_top_high_deg": 75.0,
+    "hip_drift_warn_ratio": 0.1,
+    "knee_drift_warn_ratio": 0.12,
+    "momentum_warn_deg_s": 125.0,
+    "tempo_fast_warn_s": 0.65,
+    "cooldown_s": 0.8
+  }
+}
