@@ -1,0 +1,33 @@
+# Local Python environments
+.conda311/
+.venv/
+venv/
+env/
+
+# Python caches and tooling
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE/editor state
+.idea/
+.vscode/
+
+# Runtime outputs
+outputs/
+logs/
+*.log
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+config.local.json
+config.local.jsonc
+
+# OS metadata
+.DS_Store
+Thumbs.db
